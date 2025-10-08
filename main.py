@@ -1,15 +1,6 @@
 """
-Lane Lines Detection pipeline
-
-Usage:
-    main.py [--video] INPUT_PATH OUTPUT_PATH 
-
-Options:
-
--h --help                               show this screen
---video                                 process video file instead of image
+Lane Lines Detection 
 """
-
 import numpy as np
 import matplotlib.image as mpimg
 import cv2
@@ -28,10 +19,7 @@ from moviepy.audio.io.AudioFileClip import AudioFileClip
 from moviepy.audio.AudioClip import concatenate_audioclips
 
 class FindLaneLines:
-    """ This class is for parameter tunning.
-
-    Attributes:
-        ...
+    """ 
     """
     def __init__(self):
         """ Init Application"""
@@ -90,4 +78,5 @@ def main():
 
 
 if __name__ == "__main__":
+
     main()
