@@ -202,21 +202,14 @@ class LaneLines:
             y, x = self.right_curve_img[:,:,3].nonzero()
             out_img[y, x-100+W//2] = self.right_curve_img[y, x, :3]
             msg = "Right Curve Ahead"
-            #if not self.dir or self.dir[-1] != 'R':
-             #   play_beep = True
 
         elif direction == 'F':
             y, x = self.keep_straight_img[:,:,3].nonzero()
             out_img[y, x-100+W//2] = self.keep_straight_img[y, x, :3]
-            #if not self.dir or self.dir[-1] != 'F':
-             #   play_beep = True
         
         with open("audio_events.txt", "w") as file:
             for event in self.audio_events:
                 file.write(f"{event[0]},{event[1]}\n") 
-
-        #if play_beep:
-         #   beep_audio.preview()
 
         cv2.putText(out_img, msg, org=(10, 240), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=1, color=(255, 255, 255), thickness=2)
         if direction in 'LR':
@@ -231,27 +224,13 @@ class LaneLines:
             color=(0, 255, 0),
             thickness=2) 
 
-        """cv2.putText(
-            out_img,
-            "Vehicle is {:.2f} m away from center".format(pos),
-            org=(10, 450),
-            fontFace=cv2.FONT_HERSHEY_SIMPLEX,
-            fontScale=0.66,
-            color=(255, 255, 255),
-            thickness=2) """
-
         return out_img
-    
-    #def direction_changed(self):
-    # Check if the current direction differs from the last logged direction
-        #return len(self.dir) > 1 and self.dir[-1] != self.dir[-2]
+
     def direction_changed(self):
         if len(self.dir) > 1:
             print(f"🧐 Checking direction change: {self.dir[-2]} → {self.dir[-1]}")
             return self.dir[-1] != self.dir[-2]
         return False
-
-
 
     def measure_curvature(self):
         ym = 30/720
@@ -261,7 +240,7 @@ class LaneLines:
         right_fit = self.right_fit.copy()
         y_eval = 700 * ym
 
-        # Compute R_curve (radius of curvature)
+        # Compute(radius of curvature)
         left_curveR =  ((1 + (2*left_fit[0] *y_eval + left_fit[1])**2)**1.5)  / np.absolute(2*left_fit[0])
         right_curveR = ((1 + (2*right_fit[0]*y_eval + right_fit[1])**2)**1.5) / np.absolute(2*right_fit[0])
 
@@ -269,3 +248,4 @@ class LaneLines:
         xr = np.dot(self.right_fit, [700**2, 700, 1])
         pos = (1280//2 - (xl+xr)//2)*xm
         return left_curveR, right_curveR, pos 
+
